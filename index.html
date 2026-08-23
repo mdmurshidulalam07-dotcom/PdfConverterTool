@@ -13,13 +13,15 @@
       --text: #1e293b;
       --accent: #2563eb;
       --border: rgba(255, 255, 255, 0.4);
+      --muted: rgba(30, 41, 59, 0.7);
     }
     .dark {
       --bg: linear-gradient(135deg, #0f172a, #1e293b);
-      --card: rgba(15, 23, 42, 0.4);
+      --card: rgba(15, 23, 42, 0.45);
       --text: #f1f5f9;
       --accent: #60a5fa;
-      --border: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.12);
+      --muted: rgba(241, 245, 249, 0.7);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
     body {
@@ -80,6 +82,7 @@
       flex-direction: column;
       gap: 4px;
       z-index: 200;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
     }
     .top-menu.show { display: flex; }
     .menu-item {
@@ -100,11 +103,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
     .container {
       max-width: 430px;
       margin: 20px auto;
-      padding: 0 14px;
+      padding: 0 14px 90px;
     }
     .card {
       background: var(--card);
@@ -114,7 +118,7 @@
       padding: 20px 16px;
     }
     h2 { font-size: 1.25rem; margin-bottom: 4px; }
-    .desc { font-size: 0.85rem; opacity: 0.7; margin-bottom: 14px; }
+    .desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 14px; }
     .drop-zone {
       border: 2px dashed rgba(100,116,139,0.4);
       border-radius: 14px;
@@ -122,7 +126,9 @@
       text-align: center;
       background: rgba(255,255,255,0.15);
       cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
     }
+    .dark .drop-zone { background: rgba(255,255,255,0.05); }
     .drop-zone.dragover {
       border-color: var(--accent);
       background: rgba(37,99,235,0.1);
@@ -137,6 +143,7 @@
       border-radius: 12px;
       font-weight: 600;
       cursor: pointer;
+      font-size: 0.95rem;
     }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .preview-list {
@@ -144,62 +151,174 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
     .preview-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.25);
       padding: 8px;
       border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .dark .preview-item { background: rgba(255,255,255,0.06); }
+    .preview-item .thumb-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .preview-item img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 8px;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.2s;
     }
     .preview-info {
       flex: 1;
       font-size: 0.82rem;
+      min-width: 0;
     }
-    .rotate-btn {
+    .preview-info .name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
+    .preview-info small { color: var(--muted); }
+    .rotate-btn, .remove-btn {
       background: var(--accent);
       color: white;
       border: none;
       padding: 6px 10px;
       border-radius: 8px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       cursor: pointer;
+      white-space: nowrap;
+    }
+    .remove-btn {
+      background: #ef4444;
+      padding: 6px 8px;
+    }
+    .actions-row {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
     }
     .size-info {
       margin-top: 10px;
       font-size: 0.85rem;
-      opacity: 0.8;
+      color: var(--muted);
     }
-    .rename-box {
-      margin-top: 12px;
+    .options-box {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    .rename-box input {
+    .options-box label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .options-box input[type="text"],
+    .options-box input[type="number"],
+    .options-box select {
       width: 100%;
-      padding: 10px;
+      padding: 10px 12px;
       border-radius: 10px;
-      border: 1px solid rgba(148,163,184,0.4);
-      background: rgba(255,255,255,0.25);
+      border: 1px solid rgba(148,163,184,0.45);
+      background: rgba(255,255,255,0.3);
       color: var(--text);
+      font-size: 0.9rem;
+    }
+    .dark .options-box input,
+    .dark .options-box select {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .quality-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quality-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent);
+    }
+    .quality-value {
+      min-width: 42px;
+      text-align: right;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .preset-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .preset-btn {
+      flex: 1;
+      min-width: 80px;
+      padding: 8px 6px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: rgba(255,255,255,0.2);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .preset-btn.active {
+      border-color: var(--accent);
+      background: rgba(37, 99, 235, 0.15);
+      color: var(--accent);
+    }
+    .hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
     }
     footer {
       text-align: center;
       padding: 12px;
       font-size: 0.84rem;
-      opacity: 0.75;
+      color: var(--muted);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
     }
     footer .live-time {
       font-weight: 600;
       color: var(--accent);
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
     .hidden { display: none !important; }
+    .clear-btn {
+      margin-top: 4px;
+      background: transparent;
+      color: #ef4444;
+      border: 1px solid #ef4444;
+      padding: 8px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -207,11 +326,11 @@
 <header>
   <div class="logo">
     <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
-    Image Tool
+    MA PDF Tools
   </div>
   <div class="header-right">
-    <button class="icon-btn" onclick="toggleTheme()">🌓</button>
-    <button class="icon-btn" onclick="toggleMenu()">☰</button>
+    <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">🌓</button>
+    <button class="icon-btn" onclick="toggleMenu()" title="Menu">☰</button>
   </div>
 </header>
 
@@ -238,78 +357,119 @@
   <!-- Image to PDF -->
   <div id="image-to-pdf" class="card tool">
     <h2>Image to PDF</h2>
-    <p class="desc">Multiple images select karo → Rotate karo → PDF banao</p>
+    <p class="desc">Select multiple images → Rotate if needed → Choose quality & name → Convert</p>
     
     <div class="drop-zone" id="imgDrop">
       <div style="font-size:1.6rem;margin-bottom:6px">📁</div>
-      <p>Drop images or click<br><small>(Multiple allowed)</small></p>
+      <p>Drop images or click to select<br><small>(Multiple images allowed)</small></p>
       <input type="file" id="imgInput" accept="image/*" multiple hidden>
     </div>
 
     <div class="preview-list" id="previewList"></div>
-
     <div class="size-info" id="sizeInfo"></div>
 
-    <div class="rename-box">
-      <input type="text" id="pdfName" placeholder="PDF name (optional)" value="images">
-    </div>
+    <div id="imgOptions" class="options-box hidden">
+      <div>
+        <label for="pdfName">PDF file name (Rename)</label>
+        <input type="text" id="pdfName" placeholder="e.g. my-photos" value="images">
+      </div>
 
-    <button class="btn" id="imgBtn" disabled onclick="imagesToPDF()">Convert to PDF</button>
+      <div>
+        <label>PDF size / quality</label>
+        <div class="preset-row">
+          <button type="button" class="preset-btn" data-q="0.95" onclick="setQuality(0.95, this)">High</button>
+          <button type="button" class="preset-btn active" data-q="0.75" onclick="setQuality(0.75, this)">Balanced</button>
+          <button type="button" class="preset-btn" data-q="0.45" onclick="setQuality(0.45, this)">Smallest</button>
+        </div>
+        <div class="quality-row" style="margin-top:8px">
+          <input type="range" id="quality" min="0.25" max="1" step="0.05" value="0.75">
+          <span class="quality-value" id="qualityValue">75%</span>
+        </div>
+        <p class="hint">Lower = smaller PDF size · Higher = better quality</p>
+      </div>
+
+      <button class="btn" id="imgBtn" disabled onclick="imagesToPDF()">Convert to PDF</button>
+      <button class="clear-btn" onclick="clearImages()">Clear all images</button>
+    </div>
   </div>
 
-  <!-- Baaki tools same rahenge -->
+  <!-- PDF Merge -->
   <div id="pdf-merge" class="card tool hidden">
     <h2>PDF Merge</h2>
-    <p class="desc">Combine multiple PDFs</p>
+    <p class="desc">Combine multiple PDF files into one document.</p>
     <div class="drop-zone" id="pdfDrop">
       <div style="font-size:1.6rem">📁</div>
-      <p>Drop PDFs or click</p>
+      <p>Drop PDFs or click to select</p>
       <input type="file" id="pdfInput" accept="application/pdf" multiple hidden>
     </div>
     <div id="pdfInfo" class="size-info"></div>
+    <div class="options-box">
+      <div>
+        <label for="mergeName">Output file name</label>
+        <input type="text" id="mergeName" placeholder="merged" value="merged">
+      </div>
+    </div>
     <button class="btn" id="mergeBtn" disabled onclick="mergePDFs()">Merge PDFs</button>
   </div>
 
+  <!-- Image Compressor -->
   <div id="image-compress" class="card tool hidden">
     <h2>Image Compressor</h2>
-    <p class="desc">Target size ke hisaab se</p>
+    <p class="desc">Compress an image to a target file size (approximate).</p>
     <div class="drop-zone" id="compDrop">
       <div style="font-size:1.6rem">📁</div>
-      <p>Drop image or click</p>
+      <p>Drop image or click to select</p>
       <input type="file" id="compInput" accept="image/*" hidden>
     </div>
-    <div class="rename-box">
-      <label style="font-size:0.85rem">Target Size (KB)</label>
-      <input type="number" id="targetSize" value="150" min="10">
+    <div class="options-box">
+      <div>
+        <label for="targetSize">Target size (KB)</label>
+        <input type="number" id="targetSize" value="150" min="10" max="5000">
+      </div>
     </div>
     <button class="btn" id="compBtn" disabled onclick="compressToSize()">Compress Image</button>
   </div>
 
+  <!-- PDF Compressor -->
   <div id="pdf-compress" class="card tool hidden">
     <h2>PDF Compressor</h2>
-    <p class="desc">Basic compression</p>
+    <p class="desc">Basic PDF size reduction.</p>
     <div class="drop-zone" id="pdfCompDrop">
       <div style="font-size:1.6rem">📁</div>
-      <p>Drop PDF or click</p>
+      <p>Drop PDF or click to select</p>
       <input type="file" id="pdfCompInput" accept="application/pdf" hidden>
+    </div>
+    <div class="options-box">
+      <div>
+        <label for="pdfCompName">Output file name</label>
+        <input type="text" id="pdfCompName" placeholder="compressed" value="compressed">
+      </div>
     </div>
     <button class="btn" id="pdfCompBtn" disabled onclick="compressPDF()">Compress PDF</button>
   </div>
 
+  <!-- Image Converter -->
   <div id="image-convert" class="card tool hidden">
     <h2>Image Converter</h2>
-    <p class="desc">JPG ↔ PNG ↔ WEBP</p>
+    <p class="desc">Convert between JPG, PNG and WEBP.</p>
     <div class="drop-zone" id="convDrop">
       <div style="font-size:1.6rem">📁</div>
-      <p>Drop image or click</p>
+      <p>Drop image or click to select</p>
       <input type="file" id="convInput" accept="image/*" hidden>
     </div>
-    <div class="rename-box">
-      <select id="format">
-        <option value="image/jpeg">JPG</option>
-        <option value="image/png">PNG</option>
-        <option value="image/webp">WEBP</option>
-      </select>
+    <div class="options-box">
+      <div>
+        <label for="format">Output format</label>
+        <select id="format">
+          <option value="image/jpeg">JPG</option>
+          <option value="image/png">PNG</option>
+          <option value="image/webp">WEBP</option>
+        </select>
+      </div>
+      <div>
+        <label for="convName">File name (optional)</label>
+        <input type="text" id="convName" placeholder="converted">
+      </div>
     </div>
     <button class="btn" id="convBtn" disabled onclick="convertImage()">Convert</button>
   </div>
@@ -319,26 +479,35 @@
 <footer>
   <div class="live-time" id="liveTime">00:00:00</div>
   <div id="liveDate">Loading...</div>
-  <div style="margin-top:6px">Thank you for using <strong>MA PDF Tools</strong></div>
+  <div style="margin-top:4px">Thank you for using <strong>MA PDF Tools</strong></div>
 </footer>
 
 <script>
-  // Live Time
+  // Live clock
   function updateDateTime() {
     const now = new Date();
-    document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-IN', {hour12:true});
-    document.getElementById('liveDate').textContent = now.toLocaleDateString('en-IN', {weekday:'short', day:'numeric', month:'short', year:'numeric'});
+    document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-IN', { hour12: true });
+    document.getElementById('liveDate').textContent = now.toLocaleDateString('en-IN', {
+      weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
+    });
   }
   updateDateTime();
   setInterval(updateDateTime, 1000);
 
-  function toggleTheme() { document.body.classList.toggle('dark'); }
-  function toggleMenu() { document.getElementById('topMenu').classList.toggle('show'); }
+  function toggleTheme() {
+    document.body.classList.toggle('dark');
+  }
+
+  function toggleMenu() {
+    document.getElementById('topMenu').classList.toggle('show');
+  }
+
   function showTool(id) {
     document.querySelectorAll('.tool').forEach(t => t.classList.add('hidden'));
     document.getElementById(id).classList.remove('hidden');
     document.getElementById('topMenu').classList.remove('show');
   }
+
   document.addEventListener('click', e => {
     if (!e.target.closest('.icon-btn') && !e.target.closest('.top-menu')) {
       document.getElementById('topMenu').classList.remove('show');
@@ -351,7 +520,11 @@
     zone.onclick = () => input.click();
     zone.ondragover = e => { e.preventDefault(); zone.classList.add('dragover'); };
     zone.ondragleave = () => zone.classList.remove('dragover');
-    zone.ondrop = e => { e.preventDefault(); zone.classList.remove('dragover'); callback(e.dataTransfer.files); };
+    zone.ondrop = e => {
+      e.preventDefault();
+      zone.classList.remove('dragover');
+      callback(e.dataTransfer.files);
+    };
     input.onchange = e => callback(e.target.files);
   }
 
@@ -360,16 +533,30 @@
     a.href = URL.createObjectURL(blob);
     a.download = name;
     a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2500);
   }
 
-  // ========== Image to PDF with Rotate ==========
-  let imgFiles = []; // {file, rotation, dataUrl}
+  function readFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ========== Image to PDF ==========
+  let imgFiles = []; // { file, rotation, dataUrl }
 
   setupDrop('imgDrop', 'imgInput', async (files) => {
-    for (let file of files) {
-      if (!file.type.startsWith('image/')) continue;
-      const dataUrl = await readFile(file);
-      imgFiles.push({ file, rotation: 0, dataUrl });
+    const list = Array.from(files).filter(f => f.type.startsWith('image/'));
+    for (const file of list) {
+      try {
+        const dataUrl = await readFile(file);
+        imgFiles.push({ file, rotation: 0, dataUrl });
+      } catch (err) {
+        console.error('Failed to read', file.name, err);
+      }
     }
     renderPreview();
   });
@@ -377,22 +564,52 @@
   function renderPreview() {
     const list = document.getElementById('previewList');
     list.innerHTML = '';
-    
+
     imgFiles.forEach((item, index) => {
       const div = document.createElement('div');
       div.className = 'preview-item';
-      div.innerHTML = `
-        <img src="\( {item.dataUrl}" style="transform: rotate( \){item.rotation}deg)">
-        <div class="preview-info">
-          ${item.file.name}<br>
-          <small>${(item.file.size/1024).toFixed(1)} KB</small>
-        </div>
-        <button class="rotate-btn" onclick="rotateImage(${index})">🔄 Rotate</button>
+
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb-wrap';
+      const img = document.createElement('img');
+      img.src = item.dataUrl;
+      img.alt = item.file.name;
+      img.style.transform = `rotate(${item.rotation}deg)`;
+      thumb.appendChild(img);
+
+      const info = document.createElement('div');
+      info.className = 'preview-info';
+      info.innerHTML = `
+        <div class="name" title="\( {item.file.name}"> \){item.file.name}</div>
+        <small>${(item.file.size / 1024).toFixed(1)} KB · ${item.rotation}°</small>
       `;
+
+      const actions = document.createElement('div');
+      actions.className = 'actions-row';
+
+      const rotBtn = document.createElement('button');
+      rotBtn.className = 'rotate-btn';
+      rotBtn.textContent = '🔄 Rotate';
+      rotBtn.onclick = () => rotateImage(index);
+
+      const remBtn = document.createElement('button');
+      remBtn.className = 'remove-btn';
+      remBtn.textContent = '✕';
+      remBtn.title = 'Remove';
+      remBtn.onclick = () => removeImage(index);
+
+      actions.appendChild(rotBtn);
+      actions.appendChild(remBtn);
+
+      div.appendChild(thumb);
+      div.appendChild(info);
+      div.appendChild(actions);
       list.appendChild(div);
     });
 
-    document.getElementById('imgBtn').disabled = imgFiles.length === 0;
+    const hasImages = imgFiles.length > 0;
+    document.getElementById('imgBtn').disabled = !hasImages;
+    document.getElementById('imgOptions').classList.toggle('hidden', !hasImages);
     updateSizeInfo();
   }
 
@@ -401,113 +618,286 @@
     renderPreview();
   }
 
+  function removeImage(index) {
+    imgFiles.splice(index, 1);
+    renderPreview();
+  }
+
+  function clearImages() {
+    imgFiles = [];
+    document.getElementById('imgInput').value = '';
+    renderPreview();
+  }
+
+  function setQuality(val, btn) {
+    document.getElementById('quality').value = val;
+    document.getElementById('qualityValue').textContent = Math.round(val * 100) + '%';
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    updateSizeInfo();
+  }
+
   function updateSizeInfo() {
+    if (imgFiles.length === 0) {
+      document.getElementById('sizeInfo').textContent = '';
+      return;
+    }
     let total = 0;
     imgFiles.forEach(i => total += i.file.size);
-    const approx = (total * 0.7 / 1024).toFixed(1); // rough estimate
-    document.getElementById('sizeInfo').textContent = 
-      imgFiles.length + ' image(s) • Approx PDF size: \~' + approx + ' KB';
+    const quality = parseFloat(document.getElementById('quality').value) || 0.75;
+    // Rough but useful estimate
+    const approxKB = Math.max(20, Math.round((total / 1024) * quality * 0.85));
+    document.getElementById('sizeInfo').textContent =
+      `${imgFiles.length} image(s) · Estimated PDF ≈ ${approxKB} KB (changes with quality)`;
   }
+
+  document.getElementById('quality').addEventListener('input', function () {
+    const val = Math.round(this.value * 100);
+    document.getElementById('qualityValue').textContent = val + '%';
+    document.querySelectorAll('.preset-btn').forEach(b => {
+      b.classList.toggle('active', Math.abs(parseFloat(b.dataset.q) - this.value) < 0.03);
+    });
+    updateSizeInfo();
+  });
 
   async function imagesToPDF() {
     if (imgFiles.length === 0) return;
-    
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-    const name = document.getElementById('pdfName').value.trim() || 'images';
 
-    for (let i = 0; i < imgFiles.length; i++) {
-      const item = imgFiles[i];
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      img.src = item.dataUrl;
-      await new Promise(r => img.onload = r);
+    const btn = document.getElementById('imgBtn');
+    btn.disabled = true;
+    btn.textContent = 'Creating PDF...';
 
-      // Handle rotation
-      if (item.rotation % 180 === 0) {
-        canvas.width = img.width;
-        canvas.height = img.height;
-      } else {
-        canvas.width = img.height;
-        canvas.height = img.width;
+    try {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const quality = parseFloat(document.getElementById('quality').value) || 0.75;
+      let name = (document.getElementById('pdfName').value || 'images').trim();
+      name = name.replace(/[\\/:*?"<>|]/g, '_') || 'images';
+
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+
+      for (let i = 0; i < imgFiles.length; i++) {
+        const item = imgFiles[i];
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = item.dataUrl;
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+
+        const rot = item.rotation % 360;
+        if (rot % 180 === 0) {
+          canvas.width = img.width;
+          canvas.height = img.height;
+        } else {
+          canvas.width = img.height;
+          canvas.height = img.width;
+        }
+
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate((rot * Math.PI) / 180);
+        ctx.drawImage(img, -img.width / 2, -img.height / 2);
+
+        const data = canvas.toDataURL('image/jpeg', quality);
+
+        const imgRatio = canvas.width / canvas.height;
+        const pageRatio = pageW / pageH;
+        let drawW, drawH, x, y;
+        if (imgRatio > pageRatio) {
+          drawW = pageW;
+          drawH = pageW / imgRatio;
+          x = 0;
+          y = (pageH - drawH) / 2;
+        } else {
+          drawH = pageH;
+          drawW = pageH * imgRatio;
+          x = (pageW - drawW) / 2;
+          y = 0;
+        }
+
+        if (i > 0) pdf.addPage();
+        pdf.addImage(data, 'JPEG', x, y, drawW, drawH);
       }
 
-      ctx.translate(canvas.width/2, canvas.height/2);
-      ctx.rotate(item.rotation * Math.PI / 180);
-      ctx.drawImage(img, -img.width/2, -img.height/2);
-
-      const data = canvas.toDataURL('image/jpeg', 0.85);
-      const w = pdf.internal.pageSize.getWidth();
-      const h = (canvas.height * w) / canvas.width;
-
-      if (i > 0) pdf.addPage();
-      pdf.addImage(data, 'JPEG', 0, 0, w, h);
+      pdf.save(name + '.pdf');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to create PDF. Try fewer or smaller images.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Convert to PDF';
     }
-
-    pdf.save(name + '.pdf');
   }
 
-  function readFile(file) {
-    return new Promise(r => {
-      const reader = new FileReader();
-      reader.onload = () => r(reader.result);
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // Simple versions of other tools
+  // ========== PDF Merge ==========
   let pdfFiles = [];
   setupDrop('pdfDrop', 'pdfInput', files => {
-    pdfFiles = [...files].filter(f => f.type === 'application/pdf');
-    document.getElementById('pdfInfo').textContent = pdfFiles.length + ' PDF(s) selected';
+    pdfFiles = Array.from(files).filter(f => f.type === 'application/pdf');
+    document.getElementById('pdfInfo').textContent =
+      pdfFiles.length ? pdfFiles.length + ' PDF(s) selected' : '';
     document.getElementById('mergeBtn').disabled = pdfFiles.length < 2;
   });
 
   async function mergePDFs() {
-    const { PDFDocument } = PDFLib;
-    const merged = await PDFDocument.create();
-    for (const file of pdfFiles) {
-      const pdf = await PDFDocument.load(await file.arrayBuffer());
-      const pages = await merged.copyPages(pdf, pdf.getPageIndices());
-      pages.forEach(p => merged.addPage(p));
+    if (pdfFiles.length < 2) return;
+    const btn = document.getElementById('mergeBtn');
+    btn.disabled = true;
+    btn.textContent = 'Merging...';
+    try {
+      const { PDFDocument } = PDFLib;
+      const merged = await PDFDocument.create();
+      for (const file of pdfFiles) {
+        const pdf = await PDFDocument.load(await file.arrayBuffer());
+        const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+        pages.forEach(p => merged.addPage(p));
+      }
+      const bytes = await merged.save();
+      let name = (document.getElementById('mergeName').value || 'merged').trim();
+      name = name.replace(/[\\/:*?"<>|]/g, '_') || 'merged';
+      download(new Blob([bytes], { type: 'application/pdf' }), name + '.pdf');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to merge PDFs.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Merge PDFs';
     }
-    const bytes = await merged.save();
-    download(new Blob([bytes]), 'merged.pdf');
   }
 
+  // ========== Image Compressor ==========
   let compFile = null;
   setupDrop('compDrop', 'compInput', files => {
-    compFile = files[0];
+    compFile = files[0] || null;
     document.getElementById('compBtn').disabled = !compFile;
   });
 
   async function compressToSize() {
-    // same as before
-    alert('Compress feature working');
+    if (!compFile) return;
+    const targetKB = parseFloat(document.getElementById('targetSize').value) || 150;
+    const targetBytes = targetKB * 1024;
+    const btn = document.getElementById('compBtn');
+    btn.disabled = true;
+    btn.textContent = 'Compressing...';
+
+    try {
+      const dataUrl = await readFile(compFile);
+      const img = new Image();
+      img.src = dataUrl;
+      await new Promise(r => (img.onload = r));
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      let scale = 1;
+      let quality = 0.9;
+      let blob;
+
+      for (let attempt = 0; attempt < 14; attempt++) {
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        blob = await new Promise(resolve =>
+          canvas.toBlob(resolve, 'image/jpeg', quality)
+        );
+
+        if (blob.size <= targetBytes || (quality <= 0.3 && scale <= 0.35)) break;
+
+        if (blob.size > targetBytes * 1.5) {
+          scale *= 0.82;
+        } else {
+          quality = Math.max(0.28, quality - 0.07);
+        }
+      }
+
+      const name = (compFile.name.replace(/\.[^.]+$/, '') || 'compressed') + '_compressed.jpg';
+      download(blob, name);
+    } catch (err) {
+      console.error(err);
+      alert('Compression failed.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Compress Image';
+    }
   }
 
+  // ========== PDF Compressor ==========
   let pdfCompFile = null;
   setupDrop('pdfCompDrop', 'pdfCompInput', files => {
-    pdfCompFile = files[0];
+    pdfCompFile = files[0] || null;
     document.getElementById('pdfCompBtn').disabled = !pdfCompFile;
   });
 
   async function compressPDF() {
-    const { PDFDocument } = PDFLib;
-    const pdf = await PDFDocument.load(await pdfCompFile.arrayBuffer());
-    const bytes = await pdf.save({useObjectStreams:true});
-    download(new Blob([bytes]), 'compressed.pdf');
+    if (!pdfCompFile) return;
+    const btn = document.getElementById('pdfCompBtn');
+    btn.disabled = true;
+    btn.textContent = 'Compressing...';
+    try {
+      const { PDFDocument } = PDFLib;
+      const pdf = await PDFDocument.load(await pdfCompFile.arrayBuffer());
+      const bytes = await pdf.save({ useObjectStreams: true });
+      let name = (document.getElementById('pdfCompName').value || 'compressed').trim();
+      name = name.replace(/[\\/:*?"<>|]/g, '_') || 'compressed';
+      download(new Blob([bytes], { type: 'application/pdf' }), name + '.pdf');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to compress PDF.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Compress PDF';
+    }
   }
 
+  // ========== Image Converter ==========
   let convFile = null;
   setupDrop('convDrop', 'convInput', files => {
-    convFile = files[0];
+    convFile = files[0] || null;
     document.getElementById('convBtn').disabled = !convFile;
   });
 
   async function convertImage() {
-    alert('Convert feature working');
+    if (!convFile) return;
+    const format = document.getElementById('format').value;
+    const ext = format === 'image/jpeg' ? 'jpg' : format === 'image/png' ? 'png' : 'webp';
+    const btn = document.getElementById('convBtn');
+    btn.disabled = true;
+    btn.textContent = 'Converting...';
+
+    try {
+      const dataUrl = await readFile(convFile);
+      const img = new Image();
+      img.src = dataUrl;
+      await new Promise(r => (img.onload = r));
+
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (format === 'image/jpeg') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      ctx.drawImage(img, 0, 0);
+
+      const blob = await new Promise(resolve =>
+        canvas.toBlob(resolve, format, 0.92)
+      );
+
+      let name = (document.getElementById('convName').value || '').trim();
+      if (!name) name = convFile.name.replace(/\.[^.]+$/, '') || 'converted';
+      name = name.replace(/[\\/:*?"<>|]/g, '_');
+      download(blob, name + '.' + ext);
+    } catch (err) {
+      console.error(err);
+      alert('Conversion failed.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Convert';
+    }
   }
 </script>
 </body>

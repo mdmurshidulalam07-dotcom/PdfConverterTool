@@ -108,7 +108,7 @@
     .container {
       max-width: 430px;
       margin: 20px auto;
-      padding: 0 14px 90px;
+      padding: 0 14px 100px;
     }
     .card {
       background: var(--card);
@@ -136,7 +136,7 @@
     .btn {
       width: 100%;
       margin-top: 12px;
-      padding: 12px;
+      padding: 13px;
       background: var(--accent);
       color: white;
       border: none;
@@ -150,68 +150,79 @@
       margin-top: 14px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-height: 300px;
+      gap: 14px;
+      max-height: 420px;
       overflow-y: auto;
       padding-right: 4px;
     }
+    /* ===== LARGE PREVIEW ITEM ===== */
     .preview-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255,255,255,0.25);
-      padding: 8px;
-      border-radius: 12px;
+      background: rgba(255,255,255,0.28);
       border: 1px solid var(--border);
-    }
-    .dark .preview-item { background: rgba(255,255,255,0.06); }
-    .preview-item .thumb-wrap {
-      width: 64px;
-      height: 64px;
-      border-radius: 8px;
+      border-radius: 16px;
       overflow: hidden;
-      flex-shrink: 0;
+    }
+    .dark .preview-item { background: rgba(255,255,255,0.07); }
+    .preview-item .thumb-wrap {
+      width: 100%;
+      height: 200px;
       background: #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      position: relative;
     }
-    .preview-item img {
+    .dark .preview-item .thumb-wrap { background: #1e293b; }
+    .preview-item .thumb-wrap img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      transition: transform 0.2s;
+      transition: transform 0.25s ease;
     }
-    .preview-info {
+    .preview-item .info-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+    }
+    .preview-item .info-text {
       flex: 1;
-      font-size: 0.82rem;
       min-width: 0;
     }
-    .preview-info .name {
+    .preview-item .info-text .name {
+      font-size: 0.88rem;
+      font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-weight: 500;
     }
-    .preview-info small { color: var(--muted); }
+    .preview-item .info-text small {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .preview-item .actions-row {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
     .rotate-btn, .remove-btn {
+      border: none;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px 12px;
+      white-space: nowrap;
+    }
+    .rotate-btn {
       background: var(--accent);
       color: white;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 0.78rem;
-      cursor: pointer;
-      white-space: nowrap;
     }
     .remove-btn {
       background: #ef4444;
-      padding: 6px 8px;
-    }
-    .actions-row {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
+      color: white;
+      padding: 8px 10px;
     }
     .size-info {
       margin-top: 10px;
@@ -301,6 +312,7 @@
       background: var(--card);
       backdrop-filter: blur(16px);
       border-top: 1px solid var(--border);
+      z-index: 50;
     }
     footer .live-time {
       font-weight: 600;
@@ -566,23 +578,37 @@
     list.innerHTML = '';
 
     imgFiles.forEach((item, index) => {
+      // Main card
       const div = document.createElement('div');
       div.className = 'preview-item';
 
+      // Large thumbnail area
       const thumb = document.createElement('div');
       thumb.className = 'thumb-wrap';
+
       const img = document.createElement('img');
       img.src = item.dataUrl;
       img.alt = item.file.name;
-      img.style.transform = `rotate(${item.rotation}deg)`;
+      img.style.transform = 'rotate(' + item.rotation + 'deg)';
       thumb.appendChild(img);
 
-      const info = document.createElement('div');
-      info.className = 'preview-info';
-      info.innerHTML = `
-        <div class="name" title="\( {item.file.name}"> \){item.file.name}</div>
-        <small>${(item.file.size / 1024).toFixed(1)} KB · ${item.rotation}°</small>
-      `;
+      // Info + buttons bar
+      const bar = document.createElement('div');
+      bar.className = 'info-bar';
+
+      const infoText = document.createElement('div');
+      infoText.className = 'info-text';
+
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'name';
+      nameDiv.title = item.file.name;
+      nameDiv.textContent = item.file.name;   // safe – no template issues
+
+      const sizeDiv = document.createElement('small');
+      sizeDiv.textContent = (item.file.size / 1024).toFixed(1) + ' KB · ' + item.rotation + '°';
+
+      infoText.appendChild(nameDiv);
+      infoText.appendChild(sizeDiv);
 
       const actions = document.createElement('div');
       actions.className = 'actions-row';
@@ -590,20 +616,22 @@
       const rotBtn = document.createElement('button');
       rotBtn.className = 'rotate-btn';
       rotBtn.textContent = '🔄 Rotate';
-      rotBtn.onclick = () => rotateImage(index);
+      rotBtn.onclick = function () { rotateImage(index); };
 
       const remBtn = document.createElement('button');
       remBtn.className = 'remove-btn';
       remBtn.textContent = '✕';
       remBtn.title = 'Remove';
-      remBtn.onclick = () => removeImage(index);
+      remBtn.onclick = function () { removeImage(index); };
 
       actions.appendChild(rotBtn);
       actions.appendChild(remBtn);
 
+      bar.appendChild(infoText);
+      bar.appendChild(actions);
+
       div.appendChild(thumb);
-      div.appendChild(info);
-      div.appendChild(actions);
+      div.appendChild(bar);
       list.appendChild(div);
     });
 
@@ -632,7 +660,9 @@
   function setQuality(val, btn) {
     document.getElementById('quality').value = val;
     document.getElementById('qualityValue').textContent = Math.round(val * 100) + '%';
-    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.preset-btn').forEach(function (b) {
+      b.classList.remove('active');
+    });
     if (btn) btn.classList.add('active');
     updateSizeInfo();
   }
@@ -642,53 +672,52 @@
       document.getElementById('sizeInfo').textContent = '';
       return;
     }
-    let total = 0;
-    imgFiles.forEach(i => total += i.file.size);
-    const quality = parseFloat(document.getElementById('quality').value) || 0.75;
-    // Rough but useful estimate
-    const approxKB = Math.max(20, Math.round((total / 1024) * quality * 0.85));
+    var total = 0;
+    imgFiles.forEach(function (i) { total += i.file.size; });
+    var quality = parseFloat(document.getElementById('quality').value) || 0.75;
+    var approxKB = Math.max(20, Math.round((total / 1024) * quality * 0.85));
     document.getElementById('sizeInfo').textContent =
-      `${imgFiles.length} image(s) · Estimated PDF ≈ ${approxKB} KB (changes with quality)`;
+      imgFiles.length + ' image(s) · Estimated PDF ≈ ' + approxKB + ' KB (changes with quality)';
   }
 
   document.getElementById('quality').addEventListener('input', function () {
-    const val = Math.round(this.value * 100);
+    var val = Math.round(this.value * 100);
     document.getElementById('qualityValue').textContent = val + '%';
-    document.querySelectorAll('.preset-btn').forEach(b => {
+    document.querySelectorAll('.preset-btn').forEach(function (b) {
       b.classList.toggle('active', Math.abs(parseFloat(b.dataset.q) - this.value) < 0.03);
-    });
+    }.bind(this));
     updateSizeInfo();
   });
 
   async function imagesToPDF() {
     if (imgFiles.length === 0) return;
 
-    const btn = document.getElementById('imgBtn');
+    var btn = document.getElementById('imgBtn');
     btn.disabled = true;
     btn.textContent = 'Creating PDF...';
 
     try {
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const quality = parseFloat(document.getElementById('quality').value) || 0.75;
-      let name = (document.getElementById('pdfName').value || 'images').trim();
+      var jsPDF = window.jspdf.jsPDF;
+      var pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      var quality = parseFloat(document.getElementById('quality').value) || 0.75;
+      var name = (document.getElementById('pdfName').value || 'images').trim();
       name = name.replace(/[\\/:*?"<>|]/g, '_') || 'images';
 
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight();
+      var pageW = pdf.internal.pageSize.getWidth();
+      var pageH = pdf.internal.pageSize.getHeight();
 
-      for (let i = 0; i < imgFiles.length; i++) {
-        const item = imgFiles[i];
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img = new Image();
+      for (var i = 0; i < imgFiles.length; i++) {
+        var item = imgFiles[i];
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        var img = new Image();
         img.src = item.dataUrl;
-        await new Promise((resolve, reject) => {
+        await new Promise(function (resolve, reject) {
           img.onload = resolve;
           img.onerror = reject;
         });
 
-        const rot = item.rotation % 360;
+        var rot = item.rotation % 360;
         if (rot % 180 === 0) {
           canvas.width = img.width;
           canvas.height = img.height;
@@ -701,11 +730,11 @@
         ctx.rotate((rot * Math.PI) / 180);
         ctx.drawImage(img, -img.width / 2, -img.height / 2);
 
-        const data = canvas.toDataURL('image/jpeg', quality);
+        var data = canvas.toDataURL('image/jpeg', quality);
 
-        const imgRatio = canvas.width / canvas.height;
-        const pageRatio = pageW / pageH;
-        let drawW, drawH, x, y;
+        var imgRatio = canvas.width / canvas.height;
+        var pageRatio = pageW / pageH;
+        var drawW, drawH, x, y;
         if (imgRatio > pageRatio) {
           drawW = pageW;
           drawH = pageW / imgRatio;
@@ -733,9 +762,9 @@
   }
 
   // ========== PDF Merge ==========
-  let pdfFiles = [];
-  setupDrop('pdfDrop', 'pdfInput', files => {
-    pdfFiles = Array.from(files).filter(f => f.type === 'application/pdf');
+  var pdfFiles = [];
+  setupDrop('pdfDrop', 'pdfInput', function (files) {
+    pdfFiles = Array.from(files).filter(function (f) { return f.type === 'application/pdf'; });
     document.getElementById('pdfInfo').textContent =
       pdfFiles.length ? pdfFiles.length + ' PDF(s) selected' : '';
     document.getElementById('mergeBtn').disabled = pdfFiles.length < 2;
@@ -743,19 +772,19 @@
 
   async function mergePDFs() {
     if (pdfFiles.length < 2) return;
-    const btn = document.getElementById('mergeBtn');
+    var btn = document.getElementById('mergeBtn');
     btn.disabled = true;
     btn.textContent = 'Merging...';
     try {
-      const { PDFDocument } = PDFLib;
-      const merged = await PDFDocument.create();
-      for (const file of pdfFiles) {
-        const pdf = await PDFDocument.load(await file.arrayBuffer());
-        const pages = await merged.copyPages(pdf, pdf.getPageIndices());
-        pages.forEach(p => merged.addPage(p));
+      var PDFDocument = PDFLib.PDFDocument;
+      var merged = await PDFDocument.create();
+      for (var i = 0; i < pdfFiles.length; i++) {
+        var pdf = await PDFDocument.load(await pdfFiles[i].arrayBuffer());
+        var pages = await merged.copyPages(pdf, pdf.getPageIndices());
+        pages.forEach(function (p) { merged.addPage(p); });
       }
-      const bytes = await merged.save();
-      let name = (document.getElementById('mergeName').value || 'merged').trim();
+      var bytes = await merged.save();
+      var name = (document.getElementById('mergeName').value || 'merged').trim();
       name = name.replace(/[\\/:*?"<>|]/g, '_') || 'merged';
       download(new Blob([bytes], { type: 'application/pdf' }), name + '.pdf');
     } catch (err) {
@@ -768,41 +797,41 @@
   }
 
   // ========== Image Compressor ==========
-  let compFile = null;
-  setupDrop('compDrop', 'compInput', files => {
+  var compFile = null;
+  setupDrop('compDrop', 'compInput', function (files) {
     compFile = files[0] || null;
     document.getElementById('compBtn').disabled = !compFile;
   });
 
   async function compressToSize() {
     if (!compFile) return;
-    const targetKB = parseFloat(document.getElementById('targetSize').value) || 150;
-    const targetBytes = targetKB * 1024;
-    const btn = document.getElementById('compBtn');
+    var targetKB = parseFloat(document.getElementById('targetSize').value) || 150;
+    var targetBytes = targetKB * 1024;
+    var btn = document.getElementById('compBtn');
     btn.disabled = true;
     btn.textContent = 'Compressing...';
 
     try {
-      const dataUrl = await readFile(compFile);
-      const img = new Image();
+      var dataUrl = await readFile(compFile);
+      var img = new Image();
       img.src = dataUrl;
-      await new Promise(r => (img.onload = r));
+      await new Promise(function (r) { img.onload = r; });
 
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      let scale = 1;
-      let quality = 0.9;
-      let blob;
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      var scale = 1;
+      var quality = 0.9;
+      var blob;
 
-      for (let attempt = 0; attempt < 14; attempt++) {
+      for (var attempt = 0; attempt < 14; attempt++) {
         canvas.width = Math.max(1, Math.round(img.width * scale));
         canvas.height = Math.max(1, Math.round(img.height * scale));
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        blob = await new Promise(resolve =>
-          canvas.toBlob(resolve, 'image/jpeg', quality)
-        );
+        blob = await new Promise(function (resolve) {
+          canvas.toBlob(resolve, 'image/jpeg', quality);
+        });
 
         if (blob.size <= targetBytes || (quality <= 0.3 && scale <= 0.35)) break;
 
@@ -813,7 +842,7 @@
         }
       }
 
-      const name = (compFile.name.replace(/\.[^.]+$/, '') || 'compressed') + '_compressed.jpg';
+      var name = (compFile.name.replace(/\.[^.]+$/, '') || 'compressed') + '_compressed.jpg';
       download(blob, name);
     } catch (err) {
       console.error(err);
@@ -825,22 +854,22 @@
   }
 
   // ========== PDF Compressor ==========
-  let pdfCompFile = null;
-  setupDrop('pdfCompDrop', 'pdfCompInput', files => {
+  var pdfCompFile = null;
+  setupDrop('pdfCompDrop', 'pdfCompInput', function (files) {
     pdfCompFile = files[0] || null;
     document.getElementById('pdfCompBtn').disabled = !pdfCompFile;
   });
 
   async function compressPDF() {
     if (!pdfCompFile) return;
-    const btn = document.getElementById('pdfCompBtn');
+    var btn = document.getElementById('pdfCompBtn');
     btn.disabled = true;
     btn.textContent = 'Compressing...';
     try {
-      const { PDFDocument } = PDFLib;
-      const pdf = await PDFDocument.load(await pdfCompFile.arrayBuffer());
-      const bytes = await pdf.save({ useObjectStreams: true });
-      let name = (document.getElementById('pdfCompName').value || 'compressed').trim();
+      var PDFDocument = PDFLib.PDFDocument;
+      var pdf = await PDFDocument.load(await pdfCompFile.arrayBuffer());
+      var bytes = await pdf.save({ useObjectStreams: true });
+      var name = (document.getElementById('pdfCompName').value || 'compressed').trim();
       name = name.replace(/[\\/:*?"<>|]/g, '_') || 'compressed';
       download(new Blob([bytes], { type: 'application/pdf' }), name + '.pdf');
     } catch (err) {
@@ -853,41 +882,41 @@
   }
 
   // ========== Image Converter ==========
-  let convFile = null;
-  setupDrop('convDrop', 'convInput', files => {
+  var convFile = null;
+  setupDrop('convDrop', 'convInput', function (files) {
     convFile = files[0] || null;
     document.getElementById('convBtn').disabled = !convFile;
   });
 
   async function convertImage() {
     if (!convFile) return;
-    const format = document.getElementById('format').value;
-    const ext = format === 'image/jpeg' ? 'jpg' : format === 'image/png' ? 'png' : 'webp';
-    const btn = document.getElementById('convBtn');
+    var format = document.getElementById('format').value;
+    var ext = format === 'image/jpeg' ? 'jpg' : format === 'image/png' ? 'png' : 'webp';
+    var btn = document.getElementById('convBtn');
     btn.disabled = true;
     btn.textContent = 'Converting...';
 
     try {
-      const dataUrl = await readFile(convFile);
-      const img = new Image();
+      var dataUrl = await readFile(convFile);
+      var img = new Image();
       img.src = dataUrl;
-      await new Promise(r => (img.onload = r));
+      await new Promise(function (r) { img.onload = r; });
 
-      const canvas = document.createElement('canvas');
+      var canvas = document.createElement('canvas');
       canvas.width = img.width;
       canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d');
       if (format === 'image/jpeg') {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
       ctx.drawImage(img, 0, 0);
 
-      const blob = await new Promise(resolve =>
-        canvas.toBlob(resolve, format, 0.92)
-      );
+      var blob = await new Promise(function (resolve) {
+        canvas.toBlob(resolve, format, 0.92);
+      });
 
-      let name = (document.getElementById('convName').value || '').trim();
+      var name = (document.getElementById('convName').value || '').trim();
       if (!name) name = convFile.name.replace(/\.[^.]+$/, '') || 'converted';
       name = name.replace(/[\\/:*?"<>|]/g, '_');
       download(blob, name + '.' + ext);

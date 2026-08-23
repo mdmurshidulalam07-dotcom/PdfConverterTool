@@ -8,19 +8,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
-      --bg: linear-gradient(135deg, #dbeafe, #f0f9ff, #e0f2fe);
-      --card: rgba(255, 255, 255, 0.35);
+      --bg: linear-gradient(135deg, #c7d2fe, #e0f2fe, #f0f9ff);
+      --card: rgba(255, 255, 255, 0.25);
       --text: #1e293b;
       --accent: #2563eb;
-      --border: rgba(255, 255, 255, 0.5);
+      --border: rgba(255, 255, 255, 0.45);
     }
 
     .dark {
-      --bg: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
-      --card: rgba(30, 41, 59, 0.4);
+      --bg: linear-gradient(135deg, #0f172a, #1e293b);
+      --card: rgba(15, 23, 42, 0.45);
       --text: #f1f5f9;
       --accent: #60a5fa;
-      --border: rgba(255, 255, 255, 0.15);
+      --border: rgba(255, 255, 255, 0.12);
     }
 
     * {
@@ -32,20 +32,20 @@
 
     body {
       background: var(--bg);
+      background-attachment: fixed;
       color: var(--text);
       min-height: 100vh;
       transition: 0.4s;
     }
 
-    /* Header */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 18px;
+      padding: 12px 16px;
       background: var(--card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
@@ -57,132 +57,117 @@
       align-items: center;
       gap: 10px;
       font-weight: 700;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       color: var(--accent);
     }
 
     .logo img {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
       object-fit: cover;
     }
 
     .header-right {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
     .icon-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
       border: 1px solid var(--border);
       background: var(--card);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       color: var(--text);
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* Top Menu */
     .top-menu {
       position: absolute;
-      top: 68px;
-      right: 14px;
-      width: 250px;
+      top: 62px;
+      right: 12px;
+      width: 240px;
       background: var(--card);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 10px;
+      border-radius: 16px;
+      padding: 8px;
       display: none;
       flex-direction: column;
-      gap: 6px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+      gap: 4px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
       z-index: 200;
-      animation: slideDown 0.25s ease;
     }
 
     .top-menu.show { display: flex; }
-
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
 
     .menu-item {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 14px;
-      border-radius: 12px;
+      padding: 11px 12px;
+      border-radius: 11px;
       cursor: pointer;
       font-weight: 500;
-      transition: 0.2s;
+      font-size: 0.95rem;
     }
 
     .menu-item:hover {
-      background: rgba(37, 99, 235, 0.12);
+      background: rgba(37, 99, 235, 0.13);
     }
 
     .menu-item .icon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       background: rgba(37, 99, 235, 0.15);
-      border-radius: 10px;
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
     }
 
-    /* Main Card */
     .container {
-      max-width: 460px;
-      margin: 28px auto 40px;
-      padding: 0 16px;
+      max-width: 440px;
+      margin: 24px auto 30px;
+      padding: 0 14px;
     }
 
     .card {
       background: var(--card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 28px 22px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-      animation: fadeIn 0.4s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+      border-radius: 22px;
+      padding: 24px 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
     }
 
     h2 {
-      font-size: 1.35rem;
-      margin-bottom: 6px;
+      font-size: 1.3rem;
+      margin-bottom: 4px;
     }
 
     .desc {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       opacity: 0.7;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .drop-zone {
-      border: 2px dashed rgba(100, 116, 139, 0.5);
-      border-radius: 16px;
-      padding: 38px 16px;
+      border: 2px dashed rgba(100, 116, 139, 0.45);
+      border-radius: 14px;
+      padding: 32px 14px;
       text-align: center;
-      background: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.18);
       cursor: pointer;
-      transition: 0.3s;
     }
 
     .dark .drop-zone {
@@ -196,16 +181,15 @@
 
     .btn {
       width: 100%;
-      margin-top: 18px;
-      padding: 14px;
+      margin-top: 16px;
+      padding: 13px;
       background: var(--accent);
       color: white;
       border: none;
-      border-radius: 14px;
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.3s;
     }
 
     .btn:disabled {
@@ -214,33 +198,29 @@
     }
 
     .controls {
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
     .controls label {
       display: block;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
+      margin-bottom: 6px;
+      font-size: 0.88rem;
     }
 
     input[type="number"], select {
       width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(255,255,255,0.4);
-      font-size: 1rem;
+      padding: 11px;
+      border-radius: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(255,255,255,0.3);
+      font-size: 0.95rem;
       color: var(--text);
     }
 
-    .dark input, .dark select {
-      background: rgba(0,0,0,0.25);
-    }
-
     .progress {
-      margin-top: 14px;
-      height: 6px;
-      background: rgba(148, 163, 184, 0.3);
+      margin-top: 12px;
+      height: 5px;
+      background: rgba(148, 163, 184, 0.25);
       border-radius: 10px;
       overflow: hidden;
       display: none;
@@ -255,23 +235,22 @@
 
     .timer {
       text-align: center;
-      margin-top: 8px;
-      font-size: 0.85rem;
+      margin-top: 7px;
+      font-size: 0.82rem;
       opacity: 0.7;
       display: none;
     }
 
     .file-info {
-      margin-top: 12px;
-      font-size: 0.9rem;
+      margin-top: 10px;
+      font-size: 0.88rem;
       opacity: 0.75;
     }
 
-    /* Footer */
     footer {
       text-align: center;
-      padding: 20px 16px 30px;
-      font-size: 0.9rem;
+      padding: 16px 14px 28px;
+      font-size: 0.88rem;
       opacity: 0.7;
     }
 
@@ -286,7 +265,7 @@
 
 <header>
   <div class="logo">
-    <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+    <img src="logo.png" alt="Logo" onerror="this.src=''; this.style.display='none'">
     MA PDF Tools
   </div>
   <div class="header-right">
@@ -308,6 +287,10 @@
     <div class="icon">📉</div>
     <div>Image Compressor</div>
   </div>
+  <div class="menu-item" onclick="showTool('pdf-compress')">
+    <div class="icon">📦</div>
+    <div>PDF Compressor</div>
+  </div>
   <div class="menu-item" onclick="showTool('image-convert')">
     <div class="icon">🔄</div>
     <div>Image Converter</div>
@@ -316,11 +299,12 @@
 
 <div class="container">
 
+  <!-- Image to PDF -->
   <div id="image-to-pdf" class="card tool">
     <h2>Image to PDF</h2>
     <p class="desc">Multiple images → one PDF</p>
     <div class="drop-zone" id="imgDrop">
-      <div style="font-size:2rem;margin-bottom:8px">📁</div>
+      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
       <p>Drop images or click</p>
       <input type="file" id="imgInput" accept="image/*" multiple hidden>
     </div>
@@ -328,11 +312,12 @@
     <button class="btn" id="imgBtn" disabled onclick="imagesToPDF()">Convert to PDF</button>
   </div>
 
+  <!-- PDF Merge -->
   <div id="pdf-merge" class="card tool hidden">
     <h2>PDF Merge</h2>
     <p class="desc">Combine multiple PDFs</p>
     <div class="drop-zone" id="pdfDrop">
-      <div style="font-size:2rem;margin-bottom:8px">📁</div>
+      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
       <p>Drop PDFs or click</p>
       <input type="file" id="pdfInput" accept="application/pdf" multiple hidden>
     </div>
@@ -340,11 +325,12 @@
     <button class="btn" id="mergeBtn" disabled onclick="mergePDFs()">Merge PDFs</button>
   </div>
 
+  <!-- Image Compressor -->
   <div id="image-compress" class="card tool hidden">
     <h2>Image Compressor</h2>
-    <p class="desc">Target size ke hisaab se compress karega</p>
+    <p class="desc">Target size ke hisaab se compress</p>
     <div class="drop-zone" id="compDrop">
-      <div style="font-size:2rem;margin-bottom:8px">📁</div>
+      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
       <p>Drop image or click</p>
       <input type="file" id="compInput" accept="image/*" hidden>
     </div>
@@ -357,11 +343,25 @@
     <button class="btn" id="compBtn" disabled onclick="compressToSize()">Compress Image</button>
   </div>
 
+  <!-- PDF Compressor -->
+  <div id="pdf-compress" class="card tool hidden">
+    <h2>PDF Compressor</h2>
+    <p class="desc">Basic PDF size reduction (re-save method)</p>
+    <div class="drop-zone" id="pdfCompDrop">
+      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
+      <p>Drop PDF or click</p>
+      <input type="file" id="pdfCompInput" accept="application/pdf" hidden>
+    </div>
+    <div class="file-info" id="pdfCompInfo"></div>
+    <button class="btn" id="pdfCompBtn" disabled onclick="compressPDF()">Compress PDF</button>
+  </div>
+
+  <!-- Image Converter -->
   <div id="image-convert" class="card tool hidden">
     <h2>Image Converter</h2>
     <p class="desc">JPG ↔ PNG ↔ WEBP</p>
     <div class="drop-zone" id="convDrop">
-      <div style="font-size:2rem;margin-bottom:8px">📁</div>
+      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
       <p>Drop image or click</p>
       <input type="file" id="convInput" accept="image/*" hidden>
     </div>
@@ -521,9 +521,25 @@
     setTimeout(() => {
       progress.style.display = 'none';
       timer.style.display = 'none';
-    }, 1600);
+    }, 1500);
 
     download(blob, 'compressed.jpg');
+  }
+
+  // PDF Compressor (basic re-save)
+  let pdfCompFile = null;
+  setupDrop('pdfCompDrop', 'pdfCompInput', files => {
+    pdfCompFile = files[0];
+    document.getElementById('pdfCompInfo').textContent = pdfCompFile ? pdfCompFile.name : '';
+    document.getElementById('pdfCompBtn').disabled = !pdfCompFile;
+  });
+
+  async function compressPDF() {
+    if (!pdfCompFile) return;
+    const { PDFDocument } = PDFLib;
+    const pdf = await PDFDocument.load(await pdfCompFile.arrayBuffer());
+    const bytes = await pdf.save({ useObjectStreams: true });
+    download(new Blob([bytes], {type:'application/pdf'}), 'compressed.pdf');
   }
 
   // Image Converter

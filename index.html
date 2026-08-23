@@ -9,18 +9,18 @@
   <style>
     :root {
       --bg: linear-gradient(135deg, #c7d2fe, #e0f2fe, #f0f9ff);
-      --card: rgba(255, 255, 255, 0.25);
+      --card: rgba(255, 255, 255, 0.22);
       --text: #1e293b;
       --accent: #2563eb;
-      --border: rgba(255, 255, 255, 0.45);
+      --border: rgba(255, 255, 255, 0.4);
     }
 
     .dark {
       --bg: linear-gradient(135deg, #0f172a, #1e293b);
-      --card: rgba(15, 23, 42, 0.45);
+      --card: rgba(15, 23, 42, 0.4);
       --text: #f1f5f9;
       --accent: #60a5fa;
-      --border: rgba(255, 255, 255, 0.12);
+      --border: rgba(255, 255, 255, 0.1);
     }
 
     * {
@@ -42,7 +42,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 16px;
+      padding: 10px 14px;
       background: var(--card);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
@@ -55,33 +55,42 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: var(--accent);
     }
 
     .logo img {
-      width: 40px;
-      height: 40px;
-      border-radius: 11px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       object-fit: cover;
     }
 
     .header-right {
       display: flex;
-      gap: 8px;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .datetime {
+      text-align: right;
+      font-size: 0.78rem;
+      line-height: 1.3;
+      opacity: 0.85;
+    }
+
+    .datetime .time {
+      font-weight: 600;
+      font-size: 0.9rem;
     }
 
     .icon-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
       border: 1px solid var(--border);
       background: var(--card);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
       color: var(--text);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -90,9 +99,9 @@
 
     .top-menu {
       position: absolute;
-      top: 62px;
+      top: 60px;
       right: 12px;
-      width: 240px;
+      width: 230px;
       background: var(--card);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
@@ -111,32 +120,32 @@
     .menu-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 11px 12px;
+      gap: 11px;
+      padding: 10px 12px;
       border-radius: 11px;
       cursor: pointer;
       font-weight: 500;
-      font-size: 0.95rem;
+      font-size: 0.93rem;
     }
 
     .menu-item:hover {
-      background: rgba(37, 99, 235, 0.13);
+      background: rgba(37, 99, 235, 0.12);
     }
 
     .menu-item .icon {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       background: rgba(37, 99, 235, 0.15);
       border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     .container {
-      max-width: 440px;
-      margin: 24px auto 30px;
+      max-width: 430px;
+      margin: 22px auto 25px;
       padding: 0 14px;
     }
 
@@ -145,33 +154,33 @@
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 24px 18px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+      border-radius: 20px;
+      padding: 22px 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
     }
 
     h2 {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       margin-bottom: 4px;
     }
 
     .desc {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       opacity: 0.7;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .drop-zone {
-      border: 2px dashed rgba(100, 116, 139, 0.45);
+      border: 2px dashed rgba(100, 116, 139, 0.4);
       border-radius: 14px;
-      padding: 32px 14px;
+      padding: 30px 12px;
       text-align: center;
-      background: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.15);
       cursor: pointer;
     }
 
     .dark .drop-zone {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.04);
     }
 
     .drop-zone.dragover {
@@ -181,13 +190,13 @@
 
     .btn {
       width: 100%;
-      margin-top: 16px;
-      padding: 13px;
+      margin-top: 14px;
+      padding: 12px;
       background: var(--accent);
       color: white;
       border: none;
       border-radius: 12px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -198,27 +207,27 @@
     }
 
     .controls {
-      margin-top: 14px;
+      margin-top: 12px;
     }
 
     .controls label {
       display: block;
-      margin-bottom: 6px;
-      font-size: 0.88rem;
+      margin-bottom: 5px;
+      font-size: 0.85rem;
     }
 
     input[type="number"], select {
       width: 100%;
-      padding: 11px;
-      border-radius: 11px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: rgba(255,255,255,0.3);
-      font-size: 0.95rem;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(255,255,255,0.25);
+      font-size: 0.93rem;
       color: var(--text);
     }
 
     .progress {
-      margin-top: 12px;
+      margin-top: 11px;
       height: 5px;
       background: rgba(148, 163, 184, 0.25);
       border-radius: 10px;
@@ -235,22 +244,22 @@
 
     .timer {
       text-align: center;
-      margin-top: 7px;
-      font-size: 0.82rem;
+      margin-top: 6px;
+      font-size: 0.8rem;
       opacity: 0.7;
       display: none;
     }
 
     .file-info {
-      margin-top: 10px;
-      font-size: 0.88rem;
+      margin-top: 9px;
+      font-size: 0.85rem;
       opacity: 0.75;
     }
 
     footer {
       text-align: center;
-      padding: 16px 14px 28px;
-      font-size: 0.88rem;
+      padding: 14px 12px 24px;
+      font-size: 0.85rem;
       opacity: 0.7;
     }
 
@@ -265,10 +274,14 @@
 
 <header>
   <div class="logo">
-    <img src="logo.png" alt="Logo" onerror="this.src=''; this.style.display='none'">
-    MA PDF Tools
+    <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
   </div>
+
   <div class="header-right">
+    <div class="datetime">
+      <div class="time" id="liveTime">00:00:00</div>
+      <div id="liveDate">Loading...</div>
+    </div>
     <button class="icon-btn" onclick="toggleTheme()">🌓</button>
     <button class="icon-btn" onclick="toggleMenu()">☰</button>
   </div>
@@ -299,12 +312,11 @@
 
 <div class="container">
 
-  <!-- Image to PDF -->
   <div id="image-to-pdf" class="card tool">
     <h2>Image to PDF</h2>
     <p class="desc">Multiple images → one PDF</p>
     <div class="drop-zone" id="imgDrop">
-      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
+      <div style="font-size:1.7rem;margin-bottom:6px">📁</div>
       <p>Drop images or click</p>
       <input type="file" id="imgInput" accept="image/*" multiple hidden>
     </div>
@@ -312,12 +324,11 @@
     <button class="btn" id="imgBtn" disabled onclick="imagesToPDF()">Convert to PDF</button>
   </div>
 
-  <!-- PDF Merge -->
   <div id="pdf-merge" class="card tool hidden">
     <h2>PDF Merge</h2>
     <p class="desc">Combine multiple PDFs</p>
     <div class="drop-zone" id="pdfDrop">
-      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
+      <div style="font-size:1.7rem;margin-bottom:6px">📁</div>
       <p>Drop PDFs or click</p>
       <input type="file" id="pdfInput" accept="application/pdf" multiple hidden>
     </div>
@@ -325,12 +336,11 @@
     <button class="btn" id="mergeBtn" disabled onclick="mergePDFs()">Merge PDFs</button>
   </div>
 
-  <!-- Image Compressor -->
   <div id="image-compress" class="card tool hidden">
     <h2>Image Compressor</h2>
     <p class="desc">Target size ke hisaab se compress</p>
     <div class="drop-zone" id="compDrop">
-      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
+      <div style="font-size:1.7rem;margin-bottom:6px">📁</div>
       <p>Drop image or click</p>
       <input type="file" id="compInput" accept="image/*" hidden>
     </div>
@@ -343,12 +353,11 @@
     <button class="btn" id="compBtn" disabled onclick="compressToSize()">Compress Image</button>
   </div>
 
-  <!-- PDF Compressor -->
   <div id="pdf-compress" class="card tool hidden">
     <h2>PDF Compressor</h2>
-    <p class="desc">Basic PDF size reduction (re-save method)</p>
+    <p class="desc">Basic PDF size reduction</p>
     <div class="drop-zone" id="pdfCompDrop">
-      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
+      <div style="font-size:1.7rem;margin-bottom:6px">📁</div>
       <p>Drop PDF or click</p>
       <input type="file" id="pdfCompInput" accept="application/pdf" hidden>
     </div>
@@ -356,12 +365,11 @@
     <button class="btn" id="pdfCompBtn" disabled onclick="compressPDF()">Compress PDF</button>
   </div>
 
-  <!-- Image Converter -->
   <div id="image-convert" class="card tool hidden">
     <h2>Image Converter</h2>
     <p class="desc">JPG ↔ PNG ↔ WEBP</p>
     <div class="drop-zone" id="convDrop">
-      <div style="font-size:1.8rem;margin-bottom:6px">📁</div>
+      <div style="font-size:1.7rem;margin-bottom:6px">📁</div>
       <p>Drop image or click</p>
       <input type="file" id="convInput" accept="image/*" hidden>
     </div>
@@ -384,6 +392,19 @@
 </footer>
 
 <script>
+  // Live Date & Time
+  function updateDateTime() {
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-IN', { hour12: true });
+    const date = now.toLocaleDateString('en-IN', { 
+      weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' 
+    });
+    document.getElementById('liveTime').textContent = time;
+    document.getElementById('liveDate').textContent = date;
+  }
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+
   function toggleTheme() {
     document.body.classList.toggle('dark');
   }
@@ -526,7 +547,7 @@
     download(blob, 'compressed.jpg');
   }
 
-  // PDF Compressor (basic re-save)
+  // PDF Compressor
   let pdfCompFile = null;
   setupDrop('pdfCompDrop', 'pdfCompInput', files => {
     pdfCompFile = files[0];

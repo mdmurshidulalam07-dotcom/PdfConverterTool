@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDF & Image Tools</title>
+  <title>MA PDF Tools</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
-      --bg: #e8eef5;
-      --card: rgba(255, 255, 255, 0.55);
+      --bg: linear-gradient(135deg, #dbeafe, #f0f9ff, #e0f2fe);
+      --card: rgba(255, 255, 255, 0.35);
       --text: #1e293b;
-      --accent: #3b82f6;
-      --border: rgba(255, 255, 255, 0.4);
+      --accent: #2563eb;
+      --border: rgba(255, 255, 255, 0.5);
     }
 
     .dark {
-      --bg: #0f172a;
-      --card: rgba(30, 41, 59, 0.55);
+      --bg: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+      --card: rgba(30, 41, 59, 0.4);
       --text: #f1f5f9;
       --accent: #60a5fa;
-      --border: rgba(255, 255, 255, 0.12);
+      --border: rgba(255, 255, 255, 0.15);
     }
 
     * {
@@ -34,7 +34,7 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      transition: 0.3s;
+      transition: 0.4s;
     }
 
     /* Header */
@@ -42,9 +42,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 20px;
+      padding: 14px 18px;
       background: var(--card);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
@@ -52,71 +53,65 @@
     }
 
     .logo {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--accent);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--accent);
     }
 
-    .logo span {
-      background: var(--accent);
-      color: white;
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
+    .logo img {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      object-fit: cover;
     }
 
     .header-right {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .theme-btn, .menu-btn {
-      background: var(--card);
-      border: 1px solid var(--border);
+    .icon-btn {
       width: 40px;
       height: 40px;
       border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      font-size: 1.2rem;
-      color: var(--text);
     }
 
     /* Top Menu */
     .top-menu {
       position: absolute;
-      top: 70px;
-      right: 16px;
+      top: 68px;
+      right: 14px;
+      width: 250px;
       background: var(--card);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 12px;
-      width: 260px;
+      padding: 10px;
       display: none;
       flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      gap: 6px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
       z-index: 200;
       animation: slideDown 0.25s ease;
     }
 
-    .top-menu.show {
-      display: flex;
-    }
+    .top-menu.show { display: flex; }
 
     @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
+      from { opacity: 0; transform: translateY(-12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -127,68 +122,65 @@
       padding: 12px 14px;
       border-radius: 12px;
       cursor: pointer;
-      transition: 0.2s;
       font-weight: 500;
+      transition: 0.2s;
     }
 
     .menu-item:hover {
-      background: rgba(59, 130, 246, 0.15);
+      background: rgba(37, 99, 235, 0.12);
     }
 
     .menu-item .icon {
       width: 36px;
       height: 36px;
-      background: rgba(59, 130, 246, 0.15);
+      background: rgba(37, 99, 235, 0.15);
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
     }
 
-    /* Main */
+    /* Main Card */
     .container {
-      max-width: 480px;
-      margin: 30px auto;
+      max-width: 460px;
+      margin: 28px auto 40px;
       padding: 0 16px;
     }
 
     .card {
       background: var(--card);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 28px 22px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
       animation: fadeIn 0.4s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     h2 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       margin-bottom: 6px;
     }
 
     .desc {
-      color: #64748b;
       font-size: 0.9rem;
+      opacity: 0.7;
       margin-bottom: 22px;
     }
 
-    .dark .desc {
-      color: #94a3b8;
-    }
-
     .drop-zone {
-      border: 2px dashed #94a3b8;
+      border: 2px dashed rgba(100, 116, 139, 0.5);
       border-radius: 16px;
-      padding: 36px 16px;
+      padding: 38px 16px;
       text-align: center;
-      background: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.25);
       cursor: pointer;
       transition: 0.3s;
     }
@@ -199,7 +191,7 @@
 
     .drop-zone.dragover {
       border-color: var(--accent);
-      background: rgba(59, 130, 246, 0.1);
+      background: rgba(37, 99, 235, 0.1);
     }
 
     .btn {
@@ -222,7 +214,7 @@
     }
 
     .controls {
-      margin-top: 18px;
+      margin-top: 16px;
     }
 
     .controls label {
@@ -231,25 +223,24 @@
       font-size: 0.9rem;
     }
 
-    input[type="number"] {
+    input[type="number"], select {
       width: 100%;
       padding: 12px;
       border-radius: 12px;
-      border: 1px solid #cbd5e1;
-      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(255,255,255,0.4);
       font-size: 1rem;
       color: var(--text);
     }
 
-    .dark input[type="number"] {
-      background: rgba(0,0,0,0.2);
-      border-color: #334155;
+    .dark input, .dark select {
+      background: rgba(0,0,0,0.25);
     }
 
     .progress {
-      margin-top: 16px;
+      margin-top: 14px;
       height: 6px;
-      background: #e2e8f0;
+      background: rgba(148, 163, 184, 0.3);
       border-radius: 10px;
       overflow: hidden;
       display: none;
@@ -266,14 +257,26 @@
       text-align: center;
       margin-top: 8px;
       font-size: 0.85rem;
-      color: #64748b;
+      opacity: 0.7;
       display: none;
     }
 
     .file-info {
       margin-top: 12px;
       font-size: 0.9rem;
-      color: #64748b;
+      opacity: 0.75;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px 16px 30px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    footer strong {
+      color: var(--accent);
     }
 
     .hidden { display: none !important; }
@@ -283,12 +286,12 @@
 
 <header>
   <div class="logo">
-    <span>P</span>
-    PDF Tools
+    <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+    MA PDF Tools
   </div>
   <div class="header-right">
-    <button class="theme-btn" onclick="toggleTheme()">🌓</button>
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <button class="icon-btn" onclick="toggleTheme()">🌓</button>
+    <button class="icon-btn" onclick="toggleMenu()">☰</button>
   </div>
 </header>
 
@@ -313,12 +316,11 @@
 
 <div class="container">
 
-  <!-- Image to PDF -->
   <div id="image-to-pdf" class="card tool">
     <h2>Image to PDF</h2>
     <p class="desc">Multiple images → one PDF</p>
     <div class="drop-zone" id="imgDrop">
-      <div style="font-size:2rem">📁</div>
+      <div style="font-size:2rem;margin-bottom:8px">📁</div>
       <p>Drop images or click</p>
       <input type="file" id="imgInput" accept="image/*" multiple hidden>
     </div>
@@ -326,12 +328,11 @@
     <button class="btn" id="imgBtn" disabled onclick="imagesToPDF()">Convert to PDF</button>
   </div>
 
-  <!-- PDF Merge -->
   <div id="pdf-merge" class="card tool hidden">
     <h2>PDF Merge</h2>
     <p class="desc">Combine multiple PDFs</p>
     <div class="drop-zone" id="pdfDrop">
-      <div style="font-size:2rem">📁</div>
+      <div style="font-size:2rem;margin-bottom:8px">📁</div>
       <p>Drop PDFs or click</p>
       <input type="file" id="pdfInput" accept="application/pdf" multiple hidden>
     </div>
@@ -339,36 +340,34 @@
     <button class="btn" id="mergeBtn" disabled onclick="mergePDFs()">Merge PDFs</button>
   </div>
 
-  <!-- Image Compressor -->
   <div id="image-compress" class="card tool hidden">
     <h2>Image Compressor</h2>
-    <p class="desc">Target size ke hisaab se compress</p>
+    <p class="desc">Target size ke hisaab se compress karega</p>
     <div class="drop-zone" id="compDrop">
-      <div style="font-size:2rem">📁</div>
+      <div style="font-size:2rem;margin-bottom:8px">📁</div>
       <p>Drop image or click</p>
       <input type="file" id="compInput" accept="image/*" hidden>
     </div>
     <div class="controls">
       <label>Target Size (KB)</label>
-      <input type="number" id="targetSize" value="150" min="10" max="5000">
+      <input type="number" id="targetSize" value="150" min="10">
     </div>
     <div class="progress" id="progress"><div class="progress-bar" id="bar"></div></div>
     <div class="timer" id="timer">Processing...</div>
     <button class="btn" id="compBtn" disabled onclick="compressToSize()">Compress Image</button>
   </div>
 
-  <!-- Image Converter -->
   <div id="image-convert" class="card tool hidden">
     <h2>Image Converter</h2>
     <p class="desc">JPG ↔ PNG ↔ WEBP</p>
     <div class="drop-zone" id="convDrop">
-      <div style="font-size:2rem">📁</div>
+      <div style="font-size:2rem;margin-bottom:8px">📁</div>
       <p>Drop image or click</p>
       <input type="file" id="convInput" accept="image/*" hidden>
     </div>
     <div class="controls">
       <label>Convert to</label>
-      <select id="format" style="width:100%;padding:12px;border-radius:12px;border:1px solid #cbd5e1;">
+      <select id="format">
         <option value="image/jpeg">JPG</option>
         <option value="image/png">PNG</option>
         <option value="image/webp">WEBP</option>
@@ -379,13 +378,16 @@
 
 </div>
 
+<footer>
+  Thank you for using <strong>MA PDF Tools</strong><br>
+  Free • Fast • Private
+</footer>
+
 <script>
-  // Theme
   function toggleTheme() {
     document.body.classList.toggle('dark');
   }
 
-  // Menu
   function toggleMenu() {
     document.getElementById('topMenu').classList.toggle('show');
   }
@@ -396,14 +398,12 @@
     document.getElementById('topMenu').classList.remove('show');
   }
 
-  // Close menu on outside click
   document.addEventListener('click', e => {
-    if (!e.target.closest('.menu-btn') && !e.target.closest('.top-menu')) {
+    if (!e.target.closest('.icon-btn') && !e.target.closest('.top-menu')) {
       document.getElementById('topMenu').classList.remove('show');
     }
   });
 
-  // ========== Helpers ==========
   function setupDrop(zoneId, inputId, callback) {
     const zone = document.getElementById(zoneId);
     const input = document.getElementById(inputId);
@@ -425,7 +425,15 @@
     a.click();
   }
 
-  // ========== Image to PDF ==========
+  function readFile(file) {
+    return new Promise(r => {
+      const reader = new FileReader();
+      reader.onload = () => r(reader.result);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Image to PDF
   let imgFiles = [];
   setupDrop('imgDrop', 'imgInput', files => {
     imgFiles = [...files].filter(f => f.type.startsWith('image/'));
@@ -449,7 +457,7 @@
     pdf.save('images.pdf');
   }
 
-  // ========== PDF Merge ==========
+  // PDF Merge
   let pdfFiles = [];
   setupDrop('pdfDrop', 'pdfInput', files => {
     pdfFiles = [...files].filter(f => f.type === 'application/pdf');
@@ -466,10 +474,10 @@
       pages.forEach(p => merged.addPage(p));
     }
     const bytes = await merged.save();
-    download(new Blob([bytes], {type: 'application/pdf'}), 'merged.pdf');
+    download(new Blob([bytes], {type:'application/pdf'}), 'merged.pdf');
   }
 
-  // ========== Image Compress (Target Size) ==========
+  // Image Compress
   let compFile = null;
   setupDrop('compDrop', 'compInput', files => {
     compFile = files[0];
@@ -482,47 +490,43 @@
     const progress = document.getElementById('progress');
     const bar = document.getElementById('bar');
     const timer = document.getElementById('timer');
-    
+
     progress.style.display = 'block';
     timer.style.display = 'block';
     bar.style.width = '10%';
-    timer.textContent = 'Processing...';
 
     const img = new Image();
     img.src = await readFile(compFile);
     await new Promise(r => img.onload = r);
 
-    let quality = 0.9;
+    let quality = 0.92;
     let blob;
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 9; i++) {
       const canvas = document.createElement('canvas');
       canvas.width = img.width;
       canvas.height = img.height;
       canvas.getContext('2d').drawImage(img, 0, 0);
-      
       blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', quality));
       const sizeKB = blob.size / 1024;
-      
-      bar.style.width = ((i+1)/8*100) + '%';
+      bar.style.width = ((i+1)/9*100) + '%';
       timer.textContent = `Trying... ${Math.round(sizeKB)} KB`;
-
-      if (sizeKB <= targetKB + 5) break;
-      quality -= 0.1;
-      if (quality < 0.15) break;
+      if (sizeKB <= targetKB + 3) break;
+      quality -= 0.09;
+      if (quality < 0.12) break;
     }
 
     bar.style.width = '100%';
-    timer.textContent = `Done! Final size: ${Math.round(blob.size/1024)} KB`;
+    timer.textContent = `Done! ${Math.round(blob.size/1024)} KB`;
     setTimeout(() => {
       progress.style.display = 'none';
       timer.style.display = 'none';
-    }, 1500);
+    }, 1600);
 
     download(blob, 'compressed.jpg');
   }
 
-  // ========== Image Converter ==========
+  // Image Converter
   let convFile = null;
   setupDrop('convDrop', 'convInput', files => {
     convFile = files[0];
@@ -534,24 +538,14 @@
     const img = new Image();
     img.src = await readFile(convFile);
     await new Promise(r => img.onload = r);
-    
     const canvas = document.createElement('canvas');
     canvas.width = img.width;
     canvas.height = img.height;
     canvas.getContext('2d').drawImage(img, 0, 0);
-    
     canvas.toBlob(blob => {
       const ext = format.split('/')[1];
       download(blob, `converted.${ext}`);
     }, format, 0.92);
-  }
-
-  function readFile(file) {
-    return new Promise(r => {
-      const reader = new FileReader();
-      reader.onload = () => r(reader.result);
-      reader.readAsDataURL(file);
-    });
   }
 </script>
 </body>
